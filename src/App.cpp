@@ -18,13 +18,19 @@ App::App(int argc, char** argv, std::string windowName, int windowWidth, int win
     
     // This loads the model from a file and initializes an instance of the model class to store it
     modelMesh.reset(new Model("bunny.obj", 1.0, vec4(1.0)));
+    eggMesh.reset(new Model("egg.obj", 0.6, vec4(1.0)));
+
     
     //Loading textures
     diffuseRamp = Texture::create2DTextureFromFile("lightingToon.jpg");
+    diffuseRamp2 = Texture::create2DTextureFromFile("stripes.jpg");
+
     diffuseRamp->setTexParameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     diffuseRamp->setTexParameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     
 	specularRamp = Texture::create2DTextureFromFile("lightingToon.jpg");
+    specularRamp2 = Texture::create2DTextureFromFile("stripes.jpg");
+
     specularRamp->setTexParameteri(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     specularRamp->setTexParameteri(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     
@@ -46,6 +52,7 @@ void App::reloadShaders()
     shader.compileShader("BlinnPhong.frag", GLSLShader::FRAGMENT);
     shader.link();
     shader.use();
+    
 }
     
 
@@ -93,6 +100,9 @@ void App::onEvent(shared_ptr<Event> event)
 }
 
 void App::onRenderGraphics() {
+    
+    
+    
     double currentT = glfwGetTime();
     totalTime += 0.25*(currentT - lastTime);
     lastTime = currentT;
@@ -117,10 +127,12 @@ void App::onRenderGraphics() {
     shader.setUniform("normal_mat", mat3(transpose(inverse(model))));
     vec3 eyePosition = turntable->getPos();
     shader.setUniform("eye_world", eyePosition);
+    
     diffuseRamp->bind(0);
     shader.setUniform("diffuseRamp", 0);
     specularRamp->bind(1);
 	shader.setUniform("specularRamp", 1);
+
     
     
     // Properties of the material the model is made out of (the "K" terms in the equations discussed in class)
@@ -168,8 +180,12 @@ void App::onRenderGraphics() {
 
 	shader.setUniform("lightPosition", lightPosition);
 
+    
     // Draw the model
     modelMesh->draw(shader);
+    eggMesh->draw(shader2);
+
+
     
     // For debugging purposes, let's draw a sphere to reprsent each "light bulb" in the scene, that way
     // we can make sure the lighting on the bunny makes sense given the position of each light source.

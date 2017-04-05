@@ -29,8 +29,14 @@ protected:
     
     GLSLProgram shader;
     
-    std::unique_ptr<Model> modelMesh;
+    std::shared_ptr<Texture> diffuseRamp2;
+    std::shared_ptr<Texture> specularRamp2;
+    
+    GLSLProgram shader2;
+    
     std::shared_ptr<TurntableManipulator> turntable;
+    std::unique_ptr<Model> modelMesh;
+    std::unique_ptr<Model> eggMesh;
     
     glm::vec4 lightPosition;
     bool drawLightVector;
