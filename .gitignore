@@ -259,3 +259,12 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+assimp
+CMakeFiles
+deps
+glfw
+soil
+__MACOSX
+*.vcxproj*
+*.sln
