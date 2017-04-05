@@ -268,3 +268,4 @@ soil
 __MACOSX
 *.vcxproj*
 *.sln
+CMakeCache.txt
